@@ -40,5 +40,5 @@
       }
     }
   },
-  "mongodb": "mongodb://localhost:27017/t_1"
+  "mongodb": "mongodb+srv://abhijitrmly:2bk0JrQ71l5VfyhE@cluster0.fuzae.mongodb.net/t1?retryWrites=true&w=majority"
 }
