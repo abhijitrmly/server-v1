@@ -22,7 +22,7 @@ const userLabelSchema = parentField => ({
     parentField: parentField,
     childField: '_id',
     query: {
-      $select: ['email', 'createdAt', 'brandingLabels'],
+      $select: ['email', 'createdAt', 'brandingLabels', 'profilePicture'],
     },
   }
 });
