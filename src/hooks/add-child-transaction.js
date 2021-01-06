@@ -4,7 +4,7 @@
 const extractData = (originalArray, transaction) => {
   const { supplierBranding = {}, supplierType, itemPopulated = {}, supplierPopulated = {}, populatedParentTransactions = [] } = transaction;
   const {
-    coverDesign = '', storyTitle = '', stepLabel = '', stepLocation = '',
+    coverDesign = '', storyTitle = '', stepLabel = '', stepLocation = {},
   } = supplierBranding;
 
   const { brandingLabels = [], profilePicture } = supplierPopulated;
