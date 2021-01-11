@@ -1,7 +1,5 @@
-
-
-const addChildTransaction = require('../../hooks/add-child-transaction');
 const { populate } = require('feathers-hooks-common');
+const addChildTransaction = require('../../hooks/add-child-transaction');
 
 const materialLabelSchema = {
   include: {
@@ -12,19 +10,19 @@ const materialLabelSchema = {
     query: {
       $select: ['label', 'images'],
     },
-  }
+  },
 };
 
-const userLabelSchema = parentField => ({
+const userLabelSchema = (parentField) => ({
   include: {
     service: 'users',
     nameAs: `${parentField}Populated`,
-    parentField: parentField,
+    parentField,
     childField: '_id',
     query: {
       $select: ['email', 'createdAt', 'brandingLabels', 'profilePicture'],
     },
-  }
+  },
 });
 
 module.exports = {
@@ -35,7 +33,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   after: {
@@ -49,7 +47,7 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -59,6 +57,6 @@ module.exports = {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

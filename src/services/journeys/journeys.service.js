@@ -5,8 +5,8 @@ const hooks = require('./journeys.hooks');
 module.exports = function JourneyService(Model) {
   return function (app) {
     const options = {
-      Model: Model,
-      paginate: app.get('paginate')
+      Model,
+      paginate: app.get('paginate'),
     };
 
     // Initialize our service with any options it requires
@@ -16,4 +16,5 @@ module.exports = function JourneyService(Model) {
     const service = app.service('journeys');
 
     service.hooks(hooks);
-  };};
+  };
+};

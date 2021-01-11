@@ -2,7 +2,13 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
 const extractData = (originalArray, transaction) => {
-  const { supplierBranding = {}, supplierType, itemPopulated = {}, supplierPopulated = {}, populatedParentTransactions = [] } = transaction;
+  const {
+    supplierBranding = {},
+    supplierType,
+    itemPopulated = {},
+    supplierPopulated = {},
+    populatedParentTransactions = [],
+  } = transaction;
   const {
     coverDesign = '', storyTitle = '', stepLabel = '', stepLocation = {},
   } = supplierBranding;
@@ -12,7 +18,9 @@ const extractData = (originalArray, transaction) => {
   const [supplierActivityLabel = {}] = brandingLabels;
   const { field, fieldValue } = supplierActivityLabel;
 
-  const { labels = '' } = stepLocation;
+  const { labels = [] } = stepLocation;
+  const [firstLocationLabel = ''] = labels;
+
   const { label: itemLabel = '', images = [] } = itemPopulated;
   const [itemImage = {}] = images;
   const { url: imageUrl = '' } = itemImage;
@@ -28,11 +36,11 @@ const extractData = (originalArray, transaction) => {
     coverDesign,
     storyTitle,
     stepLabel,
-    labels,
+    labels: firstLocationLabel,
     itemLabel: productTitle,
     imageUrl: productImage,
     field,
-    fieldValue
+    fieldValue,
   });
 
   const [populatedParentTransaction] = populatedParentTransactions;
@@ -43,24 +51,22 @@ const extractData = (originalArray, transaction) => {
 };
 
 // eslint-disable-next-line no-unused-vars
-module.exports = (options = {}) => {
-  return async context => {
-    const { result = {}, app } = context;
-    const { parentTransaction = [] } = result;
+module.exports = (options = {}) => async (context) => {
+  const { result = {}, app } = context;
+  const { parentTransaction = [] } = result;
 
-    if (parentTransaction.length > 0) {
-      const populatedParentTransactions = await Promise.all(
-        parentTransaction.map(
-          tr => app.service('journeys').get(tr.parentId)
-        ),
-      );
-      context.result.populatedParentTransactions = populatedParentTransactions;
-    }
+  if (parentTransaction.length > 0) {
+    const populatedParentTransactions = await Promise.all(
+      parentTransaction.map(
+        (tr) => app.service('journeys').get(tr.parentId),
+      ),
+    );
+    context.result.populatedParentTransactions = populatedParentTransactions;
+  }
 
-    const transactionDataArray = [];
-    extractData(transactionDataArray, context.result);
-    context.result.transactionDataArray = transactionDataArray;
+  const transactionDataArray = [];
+  extractData(transactionDataArray, context.result);
+  context.result.transactionDataArray = transactionDataArray;
 
-    return context;
-  };
+  return context;
 };

@@ -16,9 +16,9 @@ module.exports = function (app) {
     brandingLabels: [{
       field: String,
       fieldValue: String,
-    }]
+    }],
   }, {
-    timestamps: true
+    timestamps: true,
   });
 
   // This is necessary to avoid model compilation errors in watch mode
@@ -27,5 +27,4 @@ module.exports = function (app) {
     mongooseClient.deleteModel(modelName);
   }
   return mongooseClient.model(modelName, schema);
-
 };

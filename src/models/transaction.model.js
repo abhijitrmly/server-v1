@@ -27,7 +27,7 @@ module.exports = function (app) {
     },
     transactionCompletedAt: {
       type: Date,
-      default: Date.now()
+      default: Date.now(),
     },
     status: {
       type: String,
@@ -41,7 +41,7 @@ module.exports = function (app) {
         ref: 'transaction',
         index: true,
       },
-      proportion: Number
+      proportion: Number,
     }],
     childrenTransaction: [{
       childId: {
@@ -49,7 +49,7 @@ module.exports = function (app) {
         ref: 'transaction',
         index: true,
       },
-      proportion: Number
+      proportion: Number,
     }],
     supplierType: {
       type: String,
@@ -59,11 +59,11 @@ module.exports = function (app) {
     },
     brandedSupplier: {
       type: Boolean,
-      default: false
+      default: false,
     },
     brandedCustomer: {
       type: Boolean,
-      default: false
+      default: false,
     },
     customerType: {
       type: String,
@@ -102,7 +102,7 @@ module.exports = function (app) {
           required: true,
           default: false,
         },
-        comments: [String]
+        comments: [String],
       }],
       coverDesign: String,
       storyTitle: String,
@@ -138,13 +138,13 @@ module.exports = function (app) {
           required: true,
           default: false,
         },
-        comments: [String]
+        comments: [String],
       }],
       coverDesign: String,
       storyTitle: String,
     },
   }, {
-    timestamps: true
+    timestamps: true,
   });
 
   // This is necessary to avoid model compilation errors in watch mode
@@ -153,5 +153,4 @@ module.exports = function (app) {
     mongooseClient.deleteModel(modelName);
   }
   return mongooseClient.model(modelName, schema);
-
 };

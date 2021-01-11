@@ -6,7 +6,7 @@ module.exports = function TransactionService(Model) {
   return function (app) {
     const options = {
       Model,
-      paginate: app.get('paginate')
+      paginate: app.get('paginate'),
     };
 
     // Initialize our service with any options it requires

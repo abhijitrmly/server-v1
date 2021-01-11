@@ -10,10 +10,10 @@ module.exports = function (app) {
     label: { type: String, required: true },
     images: [{
       url: String,
-      label: String
-    }]
+      label: String,
+    }],
   }, {
-    timestamps: true
+    timestamps: true,
   });
 
   // This is necessary to avoid model compilation errors in watch mode
@@ -22,5 +22,4 @@ module.exports = function (app) {
     mongooseClient.deleteModel(modelName);
   }
   return mongooseClient.model(modelName, schema);
-
 };

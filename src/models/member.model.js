@@ -8,9 +8,9 @@ module.exports = function (app) {
   const { Schema } = mongooseClient;
   const schema = new Schema({
     name: { type: String, required: true },
-    images: [{type: String}]
+    images: [{ type: String }],
   }, {
-    timestamps: true
+    timestamps: true,
   });
 
   // This is necessary to avoid model compilation errors in watch mode
@@ -19,5 +19,4 @@ module.exports = function (app) {
     mongooseClient.deleteModel(modelName);
   }
   return mongooseClient.model(modelName, schema);
-
 };
