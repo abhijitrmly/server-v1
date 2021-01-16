@@ -6,6 +6,7 @@ const member = require('./member/member.service.js');
 const material = require('./material/material.service.js');
 const certifications = require('./certifications/certifications.service.js');
 const journeys = require('./journeys/journeys.service.js');
+const criteria = require('./criteria/criteria.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   const TransactionModel = TransactionFactory(app);
@@ -16,4 +17,5 @@ module.exports = function (app) {
   app.configure(material);
   app.configure(certifications);
   app.configure(journeys(TransactionModel));
+  app.configure(criteria);
 };
