@@ -2,12 +2,14 @@
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-module.exports = function (app) {
+module.exports = function CertificationsModel(app) {
   const modelName = 'certifications';
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
     name: { type: String, required: true },
+    alias: { type: String },
+    standardName: { type: String, required: true },
     awardedBy: String,
     isEthical: { type: Boolean, required: true, default: false },
     isEcofriendly: { type: Boolean, required: true, default: false },
