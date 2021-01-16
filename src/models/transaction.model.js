@@ -2,7 +2,8 @@
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
-module.exports = function (app) {
+
+module.exports = function TransactionModel(app) {
   const modelName = 'transaction';
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
@@ -143,6 +144,24 @@ module.exports = function (app) {
       coverDesign: String,
       storyTitle: String,
     },
+    complianceCheckPoints: [{
+      criterion: {
+        type: Schema.Types.ObjectId,
+        ref: 'criteria',
+        index: true,
+        required: true,
+      },
+      complianceData: {
+        type: Schema.Types.ObjectId,
+        ref: 'compliance-business',
+        required: true,
+      },
+      addedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+        required: true,
+      },
+    }],
   }, {
     timestamps: true,
   });
