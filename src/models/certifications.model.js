@@ -27,6 +27,7 @@ module.exports = function CertificationsModel(app) {
     }],
   }, {
     timestamps: true,
+    strict: 'throw',
   });
 
   // This is necessary to avoid model compilation errors in watch mode

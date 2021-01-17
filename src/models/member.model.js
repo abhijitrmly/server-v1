@@ -11,6 +11,7 @@ module.exports = function (app) {
     images: [{ type: String }],
   }, {
     timestamps: true,
+    strict: 'throw',
   });
 
   // This is necessary to avoid model compilation errors in watch mode

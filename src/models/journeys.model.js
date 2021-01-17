@@ -10,6 +10,7 @@ module.exports = function (app) {
     text: { type: String, required: true },
   }, {
     timestamps: true,
+    strict: 'throw',
   });
 
   // This is necessary to avoid model compilation errors in watch mode
