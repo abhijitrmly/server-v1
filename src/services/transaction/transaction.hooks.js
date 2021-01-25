@@ -1,5 +1,46 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-return-assign */
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { populate } = require('feathers-hooks-common');
+const {
+  populate, keep, fastJoin, makeCallingParams,
+} = require('feathers-hooks-common');
+const BatchLoader = require('@feathers-plus/batch-loader');
+
+const { getResultsByKey, getUniqueKeys } = BatchLoader;
+
+const postResolvers = {
+  before: (context) => {
+    context._loaders = { businessCriterion: {} };
+
+    context._loaders.businessCriterion.id = new BatchLoader(
+      async (keys, batchLoaderContext) => {
+        const result = await context.app.service('business-criteria').find(
+          makeCallingParams(
+            batchLoaderContext,
+            { _id: { $in: getUniqueKeys(keys) } },
+            undefined,
+            { paginate: false },
+          ),
+        );
+        return getResultsByKey(keys, result, (businessCriterion) => businessCriterion._id, '!');
+      },
+      { context },
+    );
+  },
+
+  joins: {
+    compliance_criteria: () => async (transaction, context) => {
+      if (!transaction.complianceCheckPoints) return null;
+      const businessCriteria = await context._loaders.businessCriterion.id.loadMany(
+        transaction.complianceCheckPoints.map((compliance) => compliance.criterion),
+      );
+      transaction.complianceCheckPoints.forEach((compliance, i) => {
+        compliance.businessCriterionDetails = businessCriteria[i];
+      });
+    },
+  },
+};
 
 const materialLabelSchema = {
   include: {
@@ -25,12 +66,21 @@ const userLabelSchema = (parentField) => ({
   },
 });
 
+const createCriteriaFromCustomRequest = require('../../hooks/create-criteria-from-custom-request');
+
+const addPredefinedCriteriaToTransaction = require('../../hooks/add-predefined-criteria-to-transaction');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [authenticate('jwt')],
+    create: [
+      // authenticate('jwt'),
+      createCriteriaFromCustomRequest(),
+      addPredefinedCriteriaToTransaction(),
+      keep('complianceCheckPoints', 'customer'),
+    ],
     update: [authenticate('jwt')],
     patch: [authenticate('jwt')],
     remove: [],
@@ -41,6 +91,7 @@ module.exports = {
       populate({ schema: materialLabelSchema }),
       populate({ schema: userLabelSchema('supplier') }),
       populate({ schema: userLabelSchema('customer') }),
+      fastJoin(postResolvers),
     ],
     find: [],
     get: [],

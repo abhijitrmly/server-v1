@@ -12,7 +12,7 @@ module.exports = function TransactionModel(app) {
       type: Schema.Types.ObjectId,
       ref: 'users',
       index: true,
-      required: true,
+      // @TODO required: true,
     },
     customer: {
       type: Schema.Types.ObjectId,
@@ -20,11 +20,24 @@ module.exports = function TransactionModel(app) {
       index: true,
       required: true,
     },
+    complianceCheckPoints: [{
+      criterion: {
+        type: Schema.Types.ObjectId,
+        ref: 'business-criteria',
+        index: true,
+        required: true,
+      },
+      complianceData: {
+        type: Schema.Types.ObjectId,
+        ref: 'compliance-business',
+        // @TODO required: true,
+      },
+    }],
     item: {
       type: Schema.Types.ObjectId,
       ref: 'material',
       index: true,
-      required: true,
+      // @TODO required: true,
     },
     transactionCompletedAt: {
       type: Date,
@@ -56,7 +69,7 @@ module.exports = function TransactionModel(app) {
       type: String,
       enum: ['PRODUCER', 'PROCESSOR', 'CUSTOMER', 'SHIPPER', 'DISTRIBUTOR'],
       default: 'PRODUCER',
-      required: true,
+      // @TODO required: true,
     },
     brandedSupplier: {
       type: Boolean,
@@ -144,24 +157,6 @@ module.exports = function TransactionModel(app) {
       coverDesign: String,
       storyTitle: String,
     },
-    complianceCheckPoints: [{
-      criterion: {
-        type: Schema.Types.ObjectId,
-        ref: 'criteria',
-        index: true,
-        required: true,
-      },
-      complianceData: {
-        type: Schema.Types.ObjectId,
-        ref: 'compliance-business',
-        required: true,
-      },
-      addedBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-        required: true,
-      },
-    }],
   }, {
     timestamps: true,
     strict: 'throw',
