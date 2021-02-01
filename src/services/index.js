@@ -9,6 +9,8 @@ const journeys = require('./journeys/journeys.service.js');
 const criteria = require('./criteria/criteria.service.js');
 const complianceBusiness = require('./compliance-business/compliance-business.service.js');
 const businessCriteria = require('./business-criteria/business-criteria.service.js');
+const businessCertifications = require('./business-certifications/business-certifications.service.js');
+const businessCompliances = require('./business-compliances/business-compliances.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   const TransactionModel = TransactionFactory(app);
@@ -22,4 +24,6 @@ module.exports = function (app) {
   app.configure(criteria);
   app.configure(complianceBusiness);
   app.configure(businessCriteria);
+  app.configure(businessCertifications);
+  app.configure(businessCompliances);
 };

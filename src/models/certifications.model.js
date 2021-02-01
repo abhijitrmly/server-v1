@@ -9,7 +9,6 @@ module.exports = function CertificationsModel(app) {
   const schema = new Schema({
     name: { type: String, required: true },
     alias: { type: String },
-    standardName: { type: String, required: true },
     awardedBy: String,
     isEthical: { type: Boolean, required: true, default: false },
     isEcofriendly: { type: Boolean, required: true, default: false },

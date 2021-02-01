@@ -29,7 +29,7 @@ module.exports = function TransactionModel(app) {
       },
       complianceData: {
         type: Schema.Types.ObjectId,
-        ref: 'compliance-business',
+        ref: 'business-compliances',
         // @TODO required: true,
       },
     }],

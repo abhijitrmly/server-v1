@@ -70,6 +70,8 @@ const createCriteriaFromCustomRequest = require('../../hooks/create-criteria-fro
 
 const addPredefinedCriteriaToTransaction = require('../../hooks/add-predefined-criteria-to-transaction');
 
+const processBusinessComplianceData = require('../../hooks/process-business-compliance-data');
+
 module.exports = {
   before: {
     all: [],
@@ -82,7 +84,7 @@ module.exports = {
       keep('complianceCheckPoints', 'customer'),
     ],
     update: [authenticate('jwt')],
-    patch: [authenticate('jwt')],
+    patch: [authenticate('jwt'), processBusinessComplianceData()],
     remove: [],
   },
 
