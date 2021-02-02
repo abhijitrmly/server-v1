@@ -9,13 +9,15 @@ const BatchLoader = require('@feathers-plus/batch-loader');
 
 const { getResultsByKey, getUniqueKeys } = BatchLoader;
 
-const postResolvers = {
+const postResolvers = ({
+  targetService, parentArrayLabel, elementFieldLabel, newFieldLabel,
+}) => ({
   before: (context) => {
     context._loaders = { businessCriterion: {} };
 
     context._loaders.businessCriterion.id = new BatchLoader(
       async (keys, batchLoaderContext) => {
-        const result = await context.app.service('business-criteria').find(
+        const result = await context.app.service(targetService).find(
           makeCallingParams(
             batchLoaderContext,
             { _id: { $in: getUniqueKeys(keys) } },
@@ -30,17 +32,18 @@ const postResolvers = {
   },
 
   joins: {
+    // eslint-disable-next-line consistent-return
     compliance_criteria: () => async (transaction, context) => {
-      if (!transaction.complianceCheckPoints) return null;
+      if (!transaction[parentArrayLabel]) return null;
       const businessCriteria = await context._loaders.businessCriterion.id.loadMany(
-        transaction.complianceCheckPoints.map((compliance) => compliance.criterion),
+        transaction[parentArrayLabel].map((compliance) => compliance[elementFieldLabel]),
       );
-      transaction.complianceCheckPoints.forEach((compliance, i) => {
-        compliance.businessCriterionDetails = businessCriteria[i];
+      transaction[parentArrayLabel].forEach((compliance, i) => {
+        compliance[newFieldLabel] = businessCriteria[i];
       });
     },
   },
-};
+});
 
 const materialLabelSchema = {
   include: {
@@ -93,7 +96,18 @@ module.exports = {
       populate({ schema: materialLabelSchema }),
       populate({ schema: userLabelSchema('supplier') }),
       populate({ schema: userLabelSchema('customer') }),
-      fastJoin(postResolvers),
+      fastJoin(postResolvers({
+        targetService: 'business-criteria',
+        parentArrayLabel: 'complianceCheckPoints',
+        elementFieldLabel: 'criterion',
+        newFieldLabel: 'businessCriterionDetails',
+      })),
+      fastJoin(postResolvers({
+        targetService: 'business-criteria',
+        parentArrayLabel: 'complianceCheckPoints',
+        elementFieldLabel: 'criterion',
+        newFieldLabel: 'businessCriterionDetails',
+      })),
     ],
     find: [],
     get: [],
