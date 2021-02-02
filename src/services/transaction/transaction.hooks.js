@@ -75,6 +75,8 @@ const addPredefinedCriteriaToTransaction = require('../../hooks/add-predefined-c
 
 const processBusinessComplianceData = require('../../hooks/process-business-compliance-data');
 
+const patchComplianceValidationData = require('../../hooks/patch-compliance-validation-data');
+
 module.exports = {
   before: {
     all: [],
@@ -87,7 +89,7 @@ module.exports = {
       keep('complianceCheckPoints', 'customer'),
     ],
     update: [authenticate('jwt')],
-    patch: [authenticate('jwt'), processBusinessComplianceData()],
+    patch: [authenticate('jwt'), processBusinessComplianceData(), patchComplianceValidationData()],
     remove: [],
   },
 
@@ -103,10 +105,10 @@ module.exports = {
         newFieldLabel: 'businessCriterionDetails',
       })),
       fastJoin(postResolvers({
-        targetService: 'business-criteria',
+        targetService: 'business-compliances',
         parentArrayLabel: 'complianceCheckPoints',
-        elementFieldLabel: 'criterion',
-        newFieldLabel: 'businessCriterionDetails',
+        elementFieldLabel: 'complianceData',
+        newFieldLabel: 'businessComplianceDetails',
       })),
     ],
     find: [],

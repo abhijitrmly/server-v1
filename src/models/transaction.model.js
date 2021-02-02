@@ -32,6 +32,14 @@ module.exports = function TransactionModel(app) {
         ref: 'business-compliances',
         // @TODO required: true,
       },
+      customerComplianceValidation: {
+        isCompliant: {
+          type: Boolean,
+          default: false,
+        },
+        complianceAddedOn: Date,
+        comments: [String],
+      },
     }],
     item: {
       type: Schema.Types.ObjectId,

@@ -11,6 +11,11 @@ module.exports = (options = {}) => async (context) => {
   const transactionData = await app.service('transaction').get(id);
 
   const { complianceCheckPoints = [] } = transactionData;
+  const { outgoingComplianceData = {} } = data;
+
+  if (Object.keys(outgoingComplianceData).length === 0) {
+    return context;
+  }
 
   const transactionObject = complianceCheckPoints.reduce((acc, curr) => ({
     ...acc,
@@ -19,7 +24,7 @@ module.exports = (options = {}) => async (context) => {
   }), {});
   // check if compliance exists for this value already
 
-  const promiseMap = Object.entries(data).map(
+  const promiseMap = Object.entries(outgoingComplianceData).map(
     ([complianceId, complianceValues]) => {
       const paramTransactionValue = transactionObject[complianceId];
 
