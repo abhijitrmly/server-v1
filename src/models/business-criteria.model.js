@@ -43,7 +43,7 @@ module.exports = function BusinessCriteria(app) {
     }],
     category: {
       type: String,
-      enum: ['CHEMICAL_INPUTS', 'SOCIAL_FREE_EMPLOYMENT'],
+      enum: ['CHEMICAL_INPUTS', 'PROHIBITED_INPUTS', 'SOCIAL_FREE_EMPLOYMENT'],
       required: true,
     },
     isCertifierPlatformUser: {

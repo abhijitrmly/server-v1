@@ -104,12 +104,12 @@ module.exports = {
         elementFieldLabel: 'criterion',
         newFieldLabel: 'businessCriterionDetails',
       })),
-      fastJoin(postResolvers({
-        targetService: 'business-compliances',
-        parentArrayLabel: 'complianceCheckPoints',
-        elementFieldLabel: 'complianceData',
-        newFieldLabel: 'businessComplianceDetails',
-      })),
+      // fastJoin(postResolvers({
+      //   targetService: 'business-compliances',
+      //   parentArrayLabel: 'complianceCheckPoints',
+      //   elementFieldLabel: 'complianceData',
+      //   newFieldLabel: 'businessComplianceDetails',
+      // })),
     ],
     find: [],
     get: [],

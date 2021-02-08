@@ -42,7 +42,7 @@ module.exports = function (app) {
     }],
     category: {
       type: String,
-      enum: ['CHEMICAL_INPUTS', 'SOCIAL_FREE_EMPLOYMENT'],
+      enum: ['PROHIBITED_INPUTS', 'CHEMICAL_INPUTS', 'SOCIAL_FREE_EMPLOYMENT'],
       required: true,
     },
     linkedBusinessCriteria: [{

@@ -43,17 +43,17 @@ module.exports = () => async (context) => {
         primaryQuestion,
         category,
         correctAnswer = {},
-        isBoolean = false,
+        questionType,
       } = criterionData;
 
       const {
         label,
         minValueNumber,
         maxValueNumber,
-        valueBoolean,
+        valueBoolean = false,
       } = correctAnswer;
 
-      const acceptableAnswer = isBoolean ? {
+      const acceptableAnswer = questionType === 'isBoolean' ? {
         valueBoolean,
       } : {
         label,

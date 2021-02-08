@@ -46,12 +46,14 @@ module.exports = (options = {}) => async (context) => {
   context.data = {
     complianceCheckPoints: complianceRegistrationResult.map(
       (registrationData, index) => ({
-        _id: Object.keys(data)[index],
+        _id: Object.keys(outgoingComplianceData)[index],
         criterion: registrationData.linkedBusinessCriteria[0],
         complianceData: registrationData._id,
       }),
     ),
   };
+
+  console.log('context.data', context.data);
   // if not, create business compliance and then add it in transaction
 
   return context;
