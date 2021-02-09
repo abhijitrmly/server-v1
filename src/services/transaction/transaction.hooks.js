@@ -78,16 +78,19 @@ const processBusinessComplianceData = require('../../hooks/process-business-comp
 
 const patchComplianceValidationData = require('../../hooks/patch-compliance-validation-data');
 
+const addUserFromEmail = require('../../hooks/add-user-from-email');
+
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
     create: [
-      // authenticate('jwt'),
+      authenticate('jwt'),
       createCriteriaFromCustomRequest(),
       addPredefinedCriteriaToTransaction(),
-      keep('complianceCheckPoints', 'customer'),
+      addUserFromEmail(),
+      keep('complianceCheckPoints', 'customer', 'supplier'),
     ],
     update: [authenticate('jwt')],
     patch: [authenticate('jwt'), processBusinessComplianceData(), patchComplianceValidationData()],

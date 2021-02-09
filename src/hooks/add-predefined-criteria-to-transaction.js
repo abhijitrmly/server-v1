@@ -8,7 +8,7 @@
 module.exports = (options = {}) => async (context) => {
   const { data = {}, params = {}, app } = context;
   const { user = {} } = params;
-  const { _id: userId = '600b1251562684ca4ed2a28c' } = user;
+  const { _id: userId } = user;
 
   const {
     filteredPredefinedQuestionValues = {},

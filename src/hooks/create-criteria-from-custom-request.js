@@ -5,25 +5,13 @@
 // 1. create atomic criteria from custom questions
 // 2. create business criteria from atomic criteria
 
-// {
-//     "tempId": 1,
-//     "isFinalSelected": true,
-//     "primaryQuestion": "are workers paiud on time?",
-//     "category":"CHEMICAL_INPUTS",
-//     "correctAnswer": {
-//         "minValueNumber": "10",
-//         "maxValueNumber": "20",
-//         "label": "kg"
-//     }
-// }
-
 module.exports = () => async (context) => {
   const { data = {}, params = {}, app } = context;
   const { user = {} } = params;
-  const { _id: userId = '600b1251562684ca4ed2a28c' } = user;
+  const { _id: userId } = user;
   const {
     filteredcustomCriteriaValues = {},
-    customer = userId, // @TODO create a separate hook for this
+    customer = userId,
     complianceCheckPoints = [],
   } = data;
 
