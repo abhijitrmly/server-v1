@@ -16,8 +16,6 @@ module.exports = (options = {}) => async (context) => {
     return context;
   }
 
-  const dateNow = new Date();
-
   const approvedComplianceCheckpointIds = [];
   const disapprovedComplianceCheckpointIds = [];
 

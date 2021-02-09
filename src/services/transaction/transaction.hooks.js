@@ -6,6 +6,7 @@ const {
   populate, keep, fastJoin, makeCallingParams,
 } = require('feathers-hooks-common');
 const BatchLoader = require('@feathers-plus/batch-loader');
+const bulkPopulateFields = require('../../hooks/bulk-populate-fields');
 
 const { getResultsByKey, getUniqueKeys } = BatchLoader;
 
@@ -104,6 +105,15 @@ module.exports = {
         elementFieldLabel: 'criterion',
         newFieldLabel: 'businessCriterionDetails',
       })),
+      bulkPopulateFields({
+        complianceCheckPoints: {
+          complianceData: {
+            service: 'business-compliances',
+            select: ['providedExternalCertifications', 'providedAnswers', 'providedEvidence', 'complianceValidation'],
+            key: 'businessComplianceDetails',
+          },
+        },
+      }),
       // fastJoin(postResolvers({
       //   targetService: 'business-compliances',
       //   parentArrayLabel: 'complianceCheckPoints',
