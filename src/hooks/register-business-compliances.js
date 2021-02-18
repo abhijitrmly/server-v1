@@ -37,8 +37,8 @@ module.exports = ({ paramTransactionValue, complianceValues, user }) => {
     user,
     primaryQuestion,
     category,
-    providedExternalCertifications: Object.entries(acceptableCertificationsObject).filter(
-      ([, certificationValue]) => !!certificationValue,
+    providedExternalCertifications: Object.entries(answerAcceptableCertificationsObject).filter(
+      ([certificationId, certificationValue]) => !!certificationValue && certificationId !== 'answers',
     ).map(([certificationId]) => certificationId),
     providedEvidence: selfEvidences.reduce(
       (accumulator, currentValue) => ({

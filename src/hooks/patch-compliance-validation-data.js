@@ -4,15 +4,14 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => async (context) => {
   const {
-    data = {}, params = {}, app, id,
+    data = {}, app, id,
   } = context;
-  const { user = {} } = params;
-  const { _id: userId = '600b1251562684ca4ed2a28c' } = user;
 
   const { outgoingComplianceValidationData = {} } = data;
   const { complianceCheckPoints = {} } = outgoingComplianceValidationData;
 
   if (!Object.keys(complianceCheckPoints).length) {
+    delete context.data.outgoingComplianceValidationData;
     return context;
   }
 

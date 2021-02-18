@@ -6,7 +6,7 @@ module.exports = (options = {}) => async (context) => {
     data = {}, params = {}, app, id,
   } = context;
   const { user = {} } = params;
-  const { _id: userId = '600b1251562684ca4ed2a28c' } = user;
+  const { _id: userId } = user;
 
   const transactionData = await app.service('transaction').get(id);
 
@@ -14,6 +14,7 @@ module.exports = (options = {}) => async (context) => {
   const { outgoingComplianceData = {} } = data;
 
   if (Object.keys(outgoingComplianceData).length === 0) {
+    delete context.data.complianceCheckPoints;
     return context;
   }
 

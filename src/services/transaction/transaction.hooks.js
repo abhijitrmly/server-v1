@@ -3,7 +3,7 @@
 /* eslint-disable no-return-assign */
 const { authenticate } = require('@feathersjs/authentication').hooks;
 const {
-  populate, keep, fastJoin, makeCallingParams,
+  populate, keep, fastJoin, makeCallingParams, discardQuery,
 } = require('feathers-hooks-common');
 const BatchLoader = require('@feathers-plus/batch-loader');
 const bulkPopulateFields = require('../../hooks/bulk-populate-fields');
@@ -93,7 +93,12 @@ module.exports = {
       keep('complianceCheckPoints', 'customer', 'supplier'),
     ],
     update: [authenticate('jwt')],
-    patch: [authenticate('jwt'), processBusinessComplianceData(), patchComplianceValidationData()],
+    patch: [
+      authenticate('jwt'),
+      processBusinessComplianceData(),
+      patchComplianceValidationData(),
+      discardQuery('outgoingComplianceValidationData', 'outgoingComplianceData'),
+    ],
     remove: [],
   },
 

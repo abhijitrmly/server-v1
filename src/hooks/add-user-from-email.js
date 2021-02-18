@@ -9,12 +9,15 @@ module.exports = (options = {}) => async (context) => {
 
   let userId;
 
-  try {
-    const registeredUser = await app.service('users').findOne({ email: supplierEmail });
-    userId = registeredUser._id;
-  } catch (e) {
+  const registeredUserData = await app.service('users').find({ query: { email: supplierEmail } });
+  const { total = 0, data: responseData = [] } = registeredUserData;
+
+  if (total === 0) {
     const newRegisteredUser = await app.service('users').create({ email: supplierEmail });
     userId = newRegisteredUser._id;
+  } else {
+    const [firstUserRecord = {}] = responseData;
+    userId = firstUserRecord._id;
   }
 
   context.data.supplier = userId;
