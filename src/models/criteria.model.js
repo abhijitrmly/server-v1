@@ -10,7 +10,7 @@ module.exports = function CriteriaModel(app) {
     primaryQuestion: { type: String, required: true },
     category: {
       type: String,
-      enum: ['CHEMICAL_INPUTS', 'PROHIBITED_INPUTS', 'SOCIAL_FREE_EMPLOYMENT'],
+      enum: ['CHEMICAL_INPUTS', 'PROHIBITED_INPUTS', 'SOCIAL_FREE_EMPLOYMENT', 'LABOUR_CONDITIONS'],
       required: true,
     },
     certifier: {
